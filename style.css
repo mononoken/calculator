@@ -1,0 +1,89 @@
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#calculator {
+  background-color: gray;
+  padding: 30px;
+  min-width: 200px;
+  display: grid;
+  grid-template-rows: 1fr 6fr;
+}
+
+#calc-screen {
+  background-color: darkslategray;
+  color: greenyellow;
+  padding: 10px;
+}
+
+#buttons-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  column-gap: 5px;
+}
+
+#calc-numbers-container,
+#calc-operators-container {
+  display: grid;
+  column-gap: 5px;
+  grid-template-rows: repeat(5, 1fr);
+  row-gap: 5px;
+}
+
+#one-btn {
+  grid-area: one;
+}
+
+#two-btn {
+  grid-area: two;
+}
+
+#three-btn {
+  grid-area: three;
+}
+
+#four-btn {
+  grid-area: four;
+}
+
+#five-btn {
+  grid-area: five;
+}
+
+#six-btn {
+  grid-area: six;
+}
+
+#seven-btn {
+  grid-area: seven;
+}
+
+#eight-btn {
+  grid-area: eight;
+}
+
+#nine-btn {
+  grid-area: nine;
+}
+
+#zero-btn {
+  grid-area: zero;
+}
+
+#calc-numbers-container {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    ". . ."
+    "seven eight nine"
+    "four five six"
+    "one two three"
+    "zero zero zero";
+}
+
+#calc-operators-container {
+  grid-template-columns: 1fr; 
+}
