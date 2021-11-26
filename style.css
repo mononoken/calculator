@@ -12,6 +12,7 @@ body {
   min-width: 200px;
   display: grid;
   grid-template-rows: 1fr 6fr;
+  row-gap: 5px;
 }
 
 #calc-screen {
@@ -74,10 +75,14 @@ body {
   grid-area: zero;
 }
 
+#clear-btn {
+  grid-area: clear;
+}
+
 #calc-numbers-container {
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    ". . ."
+    "clear clear clear"
     "seven eight nine"
     "four five six"
     "one two three"
