@@ -1,6 +1,39 @@
-let calculation = 0;
-let operand = 0;
+let operandA = null;
+let operandB = null;
 let operation = null; 
+let result = null;
+
+const add = (num1, num2) => (num1 + num2);
+
+const subtract = (num1, num2) => (num1 - num2);
+
+const multiply = (num1, num2) => (num1 * num2);
+
+function divide(num1, num2) {
+  if (num2 === 0) {
+    return "Do not divide by 0";
+  } else {
+    return (num1 / num2);
+  }
+}   
+
+function operate(num1, num2, operator) {
+  switch (operator) {
+    case '+':
+      return add(num1, num2);
+      break;
+    case '-':
+      return subtract(num1, num2);
+      break;
+    case '*':
+      return multiply(num1, num2);
+      break;
+    case '/':
+      return divide(num1, num2);
+      break;
+  }
+}
+
 
 const calcScreen = document.getElementById('calc-screen');
 const clearBtn = document.getElementById('clear-btn');
@@ -22,47 +55,71 @@ const multiplyBtn = document.getElementById('multiply-btn');
 const divideBtn = document.getElementById('divide-btn');
 const equalsBtn = document.getElementById('equals-btn');
 
-const add = (num1, num2) => (num1 + num2);
 
-const subtract = (num1, num2) => (num1 - num2);
+function initCalc() {
+  operandA = 0;
+  operandB = null;
+  operation = null;
+  result = null;
+  refreshScreen();
+}
 
-const multiply = (num1, num2) => (num1 * num2);
+function countDecimals(num) {
+  if (num % 1 !== 0) {
+    return num.toString().split('.')[1].length;
+  } else {
+    return 0;
+  }
+}
 
-const divide = (num1, num2) => (num1 / num2);
-
-function operate(num1, num2, operator) {
-  switch (operator) {
-    case 'addition':
-      return add(num1, num2);
-      break;
-    case 'subtraction':
-      return subtract(num1, num2);
-      break;
-    case 'multiplication':
-      return multiply(num1, num2);
-      break;
-    case 'division':
-      return divide(num1, num2);
-      break;
+function roundDecimal(num) {
+  let numDecimals = countDecimals(num);
+  if (numDecimals >= 5) {
+    return num.toFixed(5);
+  } else {
+    return num;
   }
 }
 
 function refreshScreen() {
-  calcScreen.textContent = calculation;
+  if (operandA === null && operation === null && operandB === null && result === null) {
+    initCalc();
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation === null && operandB === null && result === null) {
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
+    calcScreen.textContent = `${roundDecimal(operandA)} ${operation}`;
+  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
+    calcScreen.textContent = operandB;
+  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
+    calcScreen.textContent = roundDecimal(result);
+  }
 }
 
 function clearCalcs() {
-  calculation = 0;
-  operand = 0;
-  operation = null;
+  initCalc();
   refreshScreen();
 }
 
+function getResult() {
+  result = operate(operandA, operandB, operation);
+  operandA = result;
+}
+
 function clickNumBtn(num) {
-  if (calculation === 0) {
-    calculation = num;
-  } else {
-    calculation = +`${calculation}${num}`;
+  if (operandA === null && operation === null && operandB === null && result === null) {
+    initCalc();
+    operandA = num;
+  } else if (operandA !== null && operation === null && operandB === null && result === null) {
+    operandA = +`${operandA}${num}`;
+  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
+    operandB = num;
+  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
+    operandB = +`${operandB}${num}`;
+  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
+    operandA = result;
+    operandB = num;
+    result = null;
   }
   refreshScreen();
 }
@@ -112,34 +169,68 @@ zeroBtn.addEventListener('click', event => {
 });
 
 plusBtn.addEventListener('click', event => {
-  operation = 'addition';
-  operand = calculation;
-  calculation = 0;
+  if (operation === null) {
+    operation = '+';
+  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+    getResult();
+    operation = '+';
+  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
+    operation = '+';
+    operandA = result;
+    operandB = null;
+    result = null;
+  }
   refreshScreen();
 });
 
 minusBtn.addEventListener('click', event => {
-  operation = 'subtraction';
-  operand = calculation;
-  calculation = 0;
+  if (operation === null) {
+    operation = '-';
+  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+    getResult();
+    operation = '-';
+  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
+    operation = '-';
+    operandA = result;
+    operandB = null;
+    result = null;
+  }
   refreshScreen();
 });
 
 multiplyBtn.addEventListener('click', event => {
-  operation = 'multiplication';
-  operand = calculation;
-  calculation = 0;
+  if (operation === null) {
+    operation = '*';
+  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+    getResult();
+    operation = '*';
+  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
+    operation = '*';
+    operandA = result;
+    operandB = null;
+    result = null;
+  }
   refreshScreen();
 });
 
 divideBtn.addEventListener('click', event => {
-  operation = 'division';
-  operand = calculation;
-  calculation = 0;
+  if (operation === null) {
+    operation = '/';
+  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+    getResult();
+    operation = '/';
+  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
+    operation = '/';
+    operandA = result;
+    operandB = null;
+    result = null;
+  }
   refreshScreen();
 });
 
 equalsBtn.addEventListener('click', event => {
-  calculation = operate(operand, calculation, operation);
+  getResult();
   refreshScreen();
 });
+
+initCalc();
