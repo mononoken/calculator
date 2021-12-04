@@ -233,7 +233,9 @@ divideBtn.addEventListener('click', event => {
 });
 
 equalsBtn.addEventListener('click', event => {
-  getResult();
+  if (operandA !== null && operandB !== null && operation !== null) {
+    getResult();
+  }
   refreshScreen();
 });
 
