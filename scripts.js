@@ -3,6 +3,8 @@ let operandB = null;
 let operation = null; 
 let result = null;
 
+let divideByZero = false;
+
 const add = (num1, num2) => (num1 + num2);
 
 const subtract = (num1, num2) => (num1 - num2);
@@ -11,7 +13,10 @@ const multiply = (num1, num2) => (num1 * num2);
 
 function divide(num1, num2) {
   if (num2 === 0) {
-    return "Do not divide by 0";
+    divideByZero = true;
+    operandB = null;
+    operation = null;
+    return null;
   } else {
     return (num1 / num2);
   }
@@ -57,7 +62,11 @@ const equalsBtn = document.getElementById('equals-btn');
 
 
 function refreshScreen() {
-  if (operandA === null && operation === null && operandB === null && result === null) {
+  if (divideByZero === true) {
+    calcScreen.textContent = "Do not divide by 0!";
+    initCalc();
+    divideByZero = false;
+  } else if (operandA === null && operation === null && operandB === null && result === null) {
     initCalc();
     calcScreen.textContent = operandA;
   } else if (operandA !== null && operation === null && operandB === null && result === null) {
@@ -76,7 +85,6 @@ function initCalc() {
   operandB = null;
   operation = null;
   result = null;
-  refreshScreen();
 }
 
 function countDecimals(num) {
@@ -121,6 +129,7 @@ function clickNumBtn(num) {
 
 clearBtn.addEventListener('click', event => {
   initCalc();
+  refreshScreen();
 });
 
 oneBtn.addEventListener('click', event => {
@@ -229,3 +238,4 @@ equalsBtn.addEventListener('click', event => {
 });
 
 initCalc();
+refreshScreen();
