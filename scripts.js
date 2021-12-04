@@ -56,6 +56,21 @@ const divideBtn = document.getElementById('divide-btn');
 const equalsBtn = document.getElementById('equals-btn');
 
 
+function refreshScreen() {
+  if (operandA === null && operation === null && operandB === null && result === null) {
+    initCalc();
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation === null && operandB === null && result === null) {
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
+    calcScreen.textContent = `${roundDecimal(operandA)} ${operation}`;
+  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
+    calcScreen.textContent = operandB;
+  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
+    calcScreen.textContent = roundDecimal(result);
+  }
+}
+
 function initCalc() {
   operandA = 0;
   operandB = null;
@@ -79,26 +94,6 @@ function roundDecimal(num) {
   } else {
     return num;
   }
-}
-
-function refreshScreen() {
-  if (operandA === null && operation === null && operandB === null && result === null) {
-    initCalc();
-    calcScreen.textContent = operandA;
-  } else if (operandA !== null && operation === null && operandB === null && result === null) {
-    calcScreen.textContent = operandA;
-  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
-    calcScreen.textContent = `${roundDecimal(operandA)} ${operation}`;
-  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
-    calcScreen.textContent = operandB;
-  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
-    calcScreen.textContent = roundDecimal(result);
-  }
-}
-
-function clearCalcs() {
-  initCalc();
-  refreshScreen();
 }
 
 function getResult() {
@@ -125,7 +120,7 @@ function clickNumBtn(num) {
 }
 
 clearBtn.addEventListener('click', event => {
-  clearCalcs();
+  initCalc();
 });
 
 oneBtn.addEventListener('click', event => {
