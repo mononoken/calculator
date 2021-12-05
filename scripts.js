@@ -61,25 +61,6 @@ const divideBtn = document.getElementById('divide-btn');
 const equalsBtn = document.getElementById('equals-btn');
 
 
-function refreshScreen() {
-  if (divideByZero === true) {
-    calcScreen.textContent = "Do not divide by 0!";
-    initCalc();
-    divideByZero = false;
-  } else if (operandA === null && operation === null && operandB === null && result === null) {
-    initCalc();
-    calcScreen.textContent = operandA;
-  } else if (operandA !== null && operation === null && operandB === null && result === null) {
-    calcScreen.textContent = operandA;
-  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
-    calcScreen.textContent = `${roundDecimal(operandA)} ${operation}`;
-  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
-    calcScreen.textContent = operandB;
-  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
-    calcScreen.textContent = roundDecimal(result);
-  }
-}
-
 function initCalc() {
   operandA = 0;
   operandB = null;
@@ -109,6 +90,24 @@ function roundDecimal(num) {
   return num.toFixed(decimalDigits);
 }
 
+function refreshScreen() {
+  if (divideByZero === true) {
+    calcScreen.textContent = "Do not divide by 0!";
+    initCalc();
+    divideByZero = false;
+  } else if (operandA === null && operation === null && operandB === null && result === null) {
+    initCalc();
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation === null && operandB === null && result === null) {
+    calcScreen.textContent = operandA;
+  } else if (operandA !== null && operation !== null && operandB === null && result === null) {
+    calcScreen.textContent = `${roundDecimal(operandA)} ${operation}`;
+  } else if (operandA !== null && operation !== null && operandB !== null && result === null) {
+    calcScreen.textContent = operandB;
+  } else if (operandA !== null && operation !== null && operandB !== null && result !== null) {
+    calcScreen.textContent = roundDecimal(result);
+  }
+}
 
 function getResult() {
   result = operate(operandA, operandB, operation);
@@ -178,63 +177,37 @@ zeroBtn.addEventListener('click', event => {
   clickNumBtn(0);
 });
 
-plusBtn.addEventListener('click', event => {
+function pressOperationBtn(operator) {
   if (operation !== null && operandA !== null && operandB !== null && result === null) {
     getResult();
-    operation = '+';
+    operation = operator;
   } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
-    operation = '+';
+    operation = operator;
     operandA = result;
     operandB = null;
     result = null;
   } else {
-    operation = '+';
+    operation = operator;
   }
+}
+
+plusBtn.addEventListener('click', event => {
+  pressOperationBtn('+');
   refreshScreen();
 });
 
 minusBtn.addEventListener('click', event => {
-  if (operation !== null && operandA !== null && operandB !== null && result === null) {
-    getResult();
-    operation = '-';
-  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
-    operation = '-';
-    operandA = result;
-    operandB = null;
-    result = null;
-  } else {
-    operation = '-';
-  }
+  pressOperationBtn('-');
   refreshScreen();
 });
 
 multiplyBtn.addEventListener('click', event => {
-  if (operation !== null && operandA !== null && operandB !== null && result === null) {
-    getResult();
-    operation = '*';
-  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
-    operation = '*';
-    operandA = result;
-    operandB = null;
-    result = null;
-  } else {
-    operation = '*';
-  }
+  pressOperationBtn('*');
   refreshScreen();
 });
 
 divideBtn.addEventListener('click', event => {
-  if (operation !== null && operandA !== null && operandB !== null && result === null) {
-    getResult();
-    operation = '/';
-  } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
-    operation = '/';
-    operandA = result;
-    operandB = null;
-    result = null;
-  } else {
-    operation = '/';
-  }
+  pressOperationBtn('/');
   refreshScreen();
 });
 
