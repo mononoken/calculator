@@ -1,1 +1,3 @@
-This calculator can perform addition, subtraction, multiplication, and division.
+This calculator can perform addition, subtraction, multiplication, and division. It functions similarly to a simple hand held calculator that display only one number at a time. It shows the currently queued operator for an operation. It attempts to limit the number of decimals shown, but it is not well equipped for dealing with very large numbers.
+
+It currently does not have a decimal button, negative number button, or backspace button.
