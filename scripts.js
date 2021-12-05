@@ -89,20 +89,26 @@ function initCalc() {
 
 function countDecimals(num) {
   if (num % 1 !== 0) {
-    return num.toString().split('.')[1].length;
+    let digitLimit = 9;
+    let integer = num.toString().split('.')[0];
+    let decimal = num.toString().split('.')[1];
+    if (integer.length > digitLimit) {
+      return 0;
+    } else if (integer.length + decimal.length > digitLimit) {
+      return (digitLimit - integer.length);
+    } else {
+      return decimal.length;
+    }
   } else {
     return 0;
   }
 }
 
 function roundDecimal(num) {
-  let numDecimals = countDecimals(num);
-  if (numDecimals >= 5) {
-    return num.toFixed(5);
-  } else {
-    return num;
-  }
+  let decimalDigits = countDecimals(num);
+  return num.toFixed(decimalDigits);
 }
+
 
 function getResult() {
   result = operate(operandA, operandB, operation);
@@ -173,9 +179,7 @@ zeroBtn.addEventListener('click', event => {
 });
 
 plusBtn.addEventListener('click', event => {
-  if (operation === null) {
-    operation = '+';
-  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+  if (operation !== null && operandA !== null && operandB !== null && result === null) {
     getResult();
     operation = '+';
   } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
@@ -183,14 +187,14 @@ plusBtn.addEventListener('click', event => {
     operandA = result;
     operandB = null;
     result = null;
+  } else {
+    operation = '+';
   }
   refreshScreen();
 });
 
 minusBtn.addEventListener('click', event => {
-  if (operation === null) {
-    operation = '-';
-  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+  if (operation !== null && operandA !== null && operandB !== null && result === null) {
     getResult();
     operation = '-';
   } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
@@ -198,14 +202,14 @@ minusBtn.addEventListener('click', event => {
     operandA = result;
     operandB = null;
     result = null;
+  } else {
+    operation = '-';
   }
   refreshScreen();
 });
 
 multiplyBtn.addEventListener('click', event => {
-  if (operation === null) {
-    operation = '*';
-  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+  if (operation !== null && operandA !== null && operandB !== null && result === null) {
     getResult();
     operation = '*';
   } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
@@ -213,14 +217,14 @@ multiplyBtn.addEventListener('click', event => {
     operandA = result;
     operandB = null;
     result = null;
+  } else {
+    operation = '*';
   }
   refreshScreen();
 });
 
 divideBtn.addEventListener('click', event => {
-  if (operation === null) {
-    operation = '/';
-  } else if (operation !== null && operandA !== null && operandB !== null && result === null) {
+  if (operation !== null && operandA !== null && operandB !== null && result === null) {
     getResult();
     operation = '/';
   } else if (operation !== null && operandA !== null && operandB !== null && result !== null) {
@@ -228,6 +232,8 @@ divideBtn.addEventListener('click', event => {
     operandA = result;
     operandB = null;
     result = null;
+  } else {
+    operation = '/';
   }
   refreshScreen();
 });
